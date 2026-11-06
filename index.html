@@ -205,4 +205,22 @@ function editStokManual(i){ let v=prompt("Masukkan stok baru (total stok) untuk 
 function renderKelola(){
   document.getElementById("listKelola").innerHTML = PRODUK.map((p,i)=>`<div class="flex justify-between items-center gap-2 border-b py-2"><span class="flex-1"><b>${p.nama}</b><br><span class="text-gray-400 text-xs">Jual ${rupiah(p.harga)} • Modal ${rupiah(p.modal)} • Stok ${p.stok} bungkus</span></span><span class="flex gap-1 shrink-0"><button onclick="editBarang(${i})" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">Edit</button><button onclick="hapusBarang(${i})" class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">Hapus</button></span></div>`).join("");
 }
-function editBarang(i){ let p=
+function editBarang(i){ let p=PRODUK[i]; document.getElementById("fNama").value=p.nama; document.getElementById("fHarga").value=p.harga; document.getElementById("fModal").value=p.modal; document.getElementById("fStok").value=p.stok; document.getElementById("editIndex").value=i; document.getElementById("btnSimpanBarang").innerText="SIMPAN PERUBAHAN"; document.getElementById("btnBatal").classList.remove("hidden"); document.getElementById("secKelola").scrollIntoView({behavior:"smooth"}); }
+function batalEdit(){ document.getElementById("fNama").value=""; document.getElementById("fHarga").value=""; document.getElementById("fModal").value=""; document.getElementById("fStok").value=""; document.getElementById("editIndex").value=-1; document.getElementById("btnSimpanBarang").innerText="+ TAMBAH BARANG BARU"; document.getElementById("btnBatal").classList.add("hidden"); }
+function simpanBarang(){
+  let nama=document.getElementById("fNama").value.trim();
+  let harga=parseInt(document.getElementById("fHarga").value)||0;
+  let modal=parseInt(document.getElementById("fModal").value)||0;
+  let stok=parseInt(document.getElementById("fStok").value)||0;
+  let idx=parseInt(document.getElementById("editIndex").value);
+  if(!nama||!harga){ alert("Isi dulu Nama dan Harga Jual Aa!"); return; }
+  if(idx>=0){ PRODUK[idx]={nama,harga,modal,stok}; alert("Berhasil diedit!"); }
+  else { PRODUK.push({nama,harga,modal,stok}); }
+  saveProduk(); batalEdit(); renderProduk(); renderDash();
+}
+function hapusBarang(i){ if(confirm("Hapus "+PRODUK[i].nama+" ?")){ PRODUK.splice(i,1); saveProduk(); renderProduk(); renderDash(); } }
+function resetData(){ if(confirm("Hapus semua data penjualan?")){ localStorage.removeItem("cigarmart"); data=[]; renderDash(); renderProduk(); } }
+renderProduk(); renderDash();
+</script>
+</body>
+  </html>
