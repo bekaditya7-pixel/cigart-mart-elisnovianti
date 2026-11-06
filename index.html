@@ -10,52 +10,30 @@
 .tab-page.active{display:block}
 .nav-btn{opacity:.5}
 .nav-btn.active{opacity:1;font-weight:800;color:#000}
-.nav-btn.active span{font-weight:800}
 </style>
 </head>
 <body class="bg-[#f6f1e8] pb-24 font-sans">
-<!-- HEADER -->
 <div class="bg-[#1a120b] text-white p-4 sticky top-0 z-20 flex justify-between items-center">
   <div class="flex gap-3 items-center">
     <div class="w-11 h-11 bg-amber-600 rounded-full flex items-center justify-center text-2xl">🚬</div>
-    <div>
-      <h1 class="font-bold text-lg leading-none">Cigar Mart</h1>
-      <p class="text-xs text-amber-300 mt-1">Premium Cigar • Asli • Terpercaya</p>
-    </div>
+    <div><h1 class="font-bold text-lg leading-none">Cigar Mart</h1><p class="text-xs text-amber-300 mt-1">Premium Cigar • Asli • Terpercaya</p></div>
   </div>
   <button onclick="resetData()" class="text-xs bg-white/10 px-3 py-2 rounded-full">Reset</button>
 </div>
 
 <div class="p-3 max-w-xl mx-auto">
 
-  <!-- ========== TAB 1: PENJUALAN ========== -->
+  <!-- TAB 1 PENJUALAN -->
   <div id="page-penjualan" class="tab-page active">
     <div class="grid grid-cols-2 gap-3">
-      <div class="bg-emerald-600 text-white p-4 rounded-2xl">
-        <p class="text-xs opacity-80">OMSET HARI INI</p>
-        <p id="omset" class="text-2xl font-bold mt-2">Rp 0</p>
-        <p id="jmlTransaksi" class="text-xs mt-1 opacity-80">0 transaksi hari ini</p>
-      </div>
-      <div class="bg-blue-600 text-white p-4 rounded-2xl">
-        <p class="text-xs opacity-80">TOTAL TERJUAL</p>
-        <p id="totalJual" class="text-2xl font-bold mt-2">0 bungkus</p>
-        <p class="text-xs mt-1 opacity-80">Semua jenis cerutu</p>
-      </div>
-      <div class="bg-amber-500 text-white p-4 rounded-2xl">
-        <p class="text-xs opacity-80">ESTIMASI UNTUNG</p>
-        <p id="untung" class="text-2xl font-bold mt-2">Rp 0</p>
-        <p class="text-xs mt-1 opacity-80">Laba kotor penjualan</p>
-      </div>
-      <div class="bg-rose-500 text-white p-4 rounded-2xl">
-        <p class="text-xs opacity-80">KASBON HARI INI</p>
-        <p id="kasbonTotal" class="text-2xl font-bold mt-2">Rp 0</p>
-        <p class="text-xs mt-1 opacity-80">Hutang belum dibayar</p>
-      </div>
+      <div class="bg-emerald-600 text-white p-4 rounded-2xl"><p class="text-xs opacity-80">OMSET HARI INI</p><p id="omset" class="text-2xl font-bold mt-2">Rp 0</p><p id="jmlTransaksi" class="text-xs mt-1 opacity-80">0 transaksi</p></div>
+      <div class="bg-blue-600 text-white p-4 rounded-2xl"><p class="text-xs opacity-80">TOTAL TERJUAL</p><p id="totalJual" class="text-2xl font-bold mt-2">0 bungkus</p><p class="text-xs mt-1 opacity-80">Semua jenis cerutu</p></div>
+      <div class="bg-amber-500 text-white p-4 rounded-2xl"><p class="text-xs opacity-80">ESTIMASI UNTUNG</p><p id="untung" class="text-2xl font-bold mt-2">Rp 0</p><p class="text-xs mt-1 opacity-80">Laba kotor</p></div>
+      <div class="bg-rose-500 text-white p-4 rounded-2xl"><p class="text-xs opacity-80">KASBON HARI INI</p><p id="kasbonTotal" class="text-2xl font-bold mt-2">Rp 0</p><p class="text-xs mt-1 opacity-80">Hutang belum dibayar</p></div>
     </div>
-
     <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
-      <h2 class="font-bold text-lg">+ Catat Penjualan Baru</h2>
-      <p class="text-sm text-gray-500">Pilih cerutu, jumlah dan metode pembayaran</p>
+      <h2 class="font-bold text-lg" id="judulJual">+ Catat Penjualan Baru</h2>
+      <p id="infoEdit" style="display:none" class="text-sm text-amber-600 font-bold">✏️ Lagi Edit Transaksi - Klik UPDATE untuk simpan perubahan</p>
       <label class="block text-xs font-bold mt-4 text-gray-600">TANGGAL TRANSAKSI</label>
       <input id="tanggal" type="date" class="w-full border rounded-xl p-3 mt-1">
       <label class="block text-xs font-bold mt-4 text-gray-600">NAMA PEMBELI / PELANGGAN</label>
@@ -63,7 +41,7 @@
         <button onclick="setTipe('Reguler')" id="btnReguler" class="px-3 py-1 rounded-full bg-black text-white text-sm">Reguler</button>
         <button onclick="setTipe('Reseller')" id="btnReseller" class="px-3 py-1 rounded-full bg-gray-100 text-sm">🏷️ Reseller</button>
       </div>
-      <input id="nama" placeholder="Contoh: Mas Budi, Bu Sri (default: Umum)" class="w-full border rounded-xl p-3 mt-2">
+      <input id="nama" placeholder="Contoh: Mas Budi (default: Umum)" class="w-full border rounded-xl p-3 mt-2">
       <div class="flex gap-2 mt-2 flex-wrap">
         <button onclick="isiNama('Umum')" class="bg-gray-100 px-3 py-1 rounded-full text-sm">Umum</button>
         <button onclick="isiNama('Pak RT')" class="bg-gray-100 px-3 py-1 rounded-full text-sm">Pak RT</button>
@@ -75,33 +53,23 @@
       <label class="block text-xs font-bold mt-4 text-gray-600">METODE PEMBAYARAN</label>
       <div class="grid grid-cols-3 gap-2 mt-1">
         <button onclick="setBayar('Tunai')" id="bayarTunai" class="border-2 border-black py-2 rounded-xl font-bold text-sm">Tunai</button>
-        <button onclick="setBayar('Transfer')" id="bayarTransfer" class="border py-2 rounded-xl text-sm">Transfer</button>
+        <button onclick="setBayar('Transfer')" id="bayarTransfer" class="border py-2 rounded-xl text-sm">Transfer / QR</button>
         <button onclick="setBayar('Kasbon')" id="bayarKasbon" class="border py-2 rounded-xl text-sm">Kasbon</button>
       </div>
-      <div class="flex justify-between items-center mt-4 bg-amber-50 p-3 rounded-xl">
-        <span class="font-bold">Total:</span>
-        <span id="totalBayar" class="font-bold text-xl">Rp 0</span>
-      </div>
-      <button onclick="simpan()" class="w-full bg-black text-white py-3 rounded-xl font-bold mt-3">SIMPAN PENJUALAN</button>
+      <div class="flex justify-between items-center mt-4 bg-amber-50 p-3 rounded-xl"><span class="font-bold">Total:</span><span id="totalBayar" class="font-bold text-xl">Rp 0</span></div>
+      <button onclick="simpan()" id="btnSimpanJual" class="w-full bg-black text-white py-3 rounded-xl font-bold mt-3">SIMPAN PENJUALAN</button>
+      <button onclick="batalEditJual()" id="btnBatalJual" style="display:none" class="w-full bg-gray-100 py-2 rounded-xl text-sm mt-2">Batal Edit</button>
     </div>
   </div>
 
-  <!-- ========== TAB 2: STOK ========== -->
+  <!-- TAB 2 STOK -->
   <div id="page-stok" class="tab-page">
-    <div class="bg-white rounded-2xl p-4 shadow-sm">
-      <h3 class="font-bold text-lg">📦 Stok Cerutu</h3>
-      <p class="text-xs text-gray-400">Klik + / - atau Edit untuk ubah stok langsung di sini.</p>
-      <div id="listStok" class="mt-3 text-sm"></div>
-    </div>
+    <div class="bg-white rounded-2xl p-4 shadow-sm"><h3 class="font-bold text-lg">📦 Stok Cerutu</h3><p class="text-xs text-gray-400">Klik + / - atau Edit untuk ubah stok.</p><div id="listStok" class="mt-3 text-sm"></div></div>
     <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
-      <h3 class="font-bold">Kelola Barang - Edit Harga / Stok / Tambah Barang</h3>
-      <p class="text-xs text-gray-400 mt-1">Isi form untuk tambah barang baru, atau klik Edit di barang yang mau diubah.</p>
-      <input id="fNama" placeholder="Nama Barang, cth: MARBOL Filterblack" class="w-full border rounded-xl p-3 mt-3">
-      <div class="grid grid-cols-2 gap-2 mt-2">
-        <input id="fHarga" type="number" placeholder="Harga Jual, cth: 14000" class="border rounded-xl p-3">
-        <input id="fModal" type="number" placeholder="Harga Modal, cth: 10000" class="border rounded-xl p-3">
-      </div>
-      <input id="fStok" type="number" placeholder="Stok, cth: 50" class="w-full border rounded-xl p-3 mt-2">
+      <h3 class="font-bold">Kelola Barang</h3><p class="text-xs text-gray-400 mt-1">Isi form untuk tambah barang baru, atau klik Edit.</p>
+      <input id="fNama" placeholder="Nama Barang" class="w-full border rounded-xl p-3 mt-3">
+      <div class="grid grid-cols-2 gap-2 mt-2"><input id="fHarga" type="number" placeholder="Harga Jual" class="border rounded-xl p-3"><input id="fModal" type="number" placeholder="Harga Modal" class="border rounded-xl p-3"></div>
+      <input id="fStok" type="number" placeholder="Stok" class="w-full border rounded-xl p-3 mt-2">
       <input type="hidden" id="editIndex" value="-1">
       <button onclick="simpanBarang()" id="btnSimpanBarang" class="w-full bg-amber-600 text-white py-3 rounded-xl font-bold mt-3">+ TAMBAH BARANG BARU</button>
       <button onclick="batalEdit()" id="btnBatal" class="w-full bg-gray-100 py-2 rounded-xl text-sm mt-2 hidden">Batal Edit</button>
@@ -109,45 +77,75 @@
     </div>
   </div>
 
-  <!-- ========== TAB 3: PEMBUKUAN ========== -->
+  <!-- TAB 3 PEMBUKUAN - BARU ADA DANA MASUK / KELUAR + PENGINGAT PINJAM -->
   <div id="page-pembukuan" class="tab-page">
-    <div class="bg-white rounded-2xl p-4 shadow-sm">
+    <div class="grid grid-cols-3 gap-2">
+      <div class="bg-emerald-600 text-white p-3 rounded-2xl text-center"><p class="text-[11px] opacity-80">CASH / TUNAI</p><p id="totalCash" class="font-bold">Rp 0</p><p id="countCash" class="text-[11px] opacity-80">0x</p></div>
+      <div class="bg-blue-600 text-white p-3 rounded-2xl text-center"><p class="text-[11px] opacity-80">QR / TRANSFER</p><p id="totalTransfer" class="font-bold">Rp 0</p><p id="countTransfer" class="text-[11px] opacity-80">0x</p></div>
+      <div class="bg-rose-500 text-white p-3 rounded-2xl text-center"><p class="text-[11px] opacity-80">KASBON</p><p id="totalKasbonBuku" class="font-bold">Rp 0</p><p id="countKasbonBuku" class="text-[11px] opacity-80">0x</p></div>
+    </div>
+
+    <!-- PENGINGAT PINJAMAN - MUNCUL OTOMATIS KALAU ADA PINJAM -->
+    <div id="boxPinjam" class="bg-amber-100 border-2 border-amber-400 rounded-2xl p-4 mt-4" style="display:none">
+      <h3 class="font-bold text-amber-800">⚠️ PENGINGAT PINJAMAN - JANGAN LUPA BAYAR!</h3>
+      <p id="totalPinjam" class="text-sm text-amber-800 mt-1"></p>
+      <div id="listPinjam" class="mt-2 text-sm"></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
       <h3 class="font-bold text-lg">📒 Pembukuan - Riwayat Hari Ini</h3>
-      <p class="text-xs text-gray-400">Semua transaksi yang udah tersimpan hari ini.</p>
+      <p class="text-xs text-gray-400">Tiap transaksi bisa di Edit & kirim Nota WA.</p>
       <div id="riwayat" class="mt-3 text-sm"></div>
     </div>
+
+    <!-- DANA MASUK / KELUAR MANUAL -->
+    <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
+      <h3 class="font-bold text-lg">💰 Dana Masuk / Keluar Manual</h3>
+      <p class="text-xs text-gray-400">Buat catat modal masuk, bayar listrik, beli plastik, dll. Kalau tulis "pinjam" di keterangan, otomatis masuk pengingat di atas.</p>
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <div class="bg-emerald-50 p-3 rounded-xl text-center"><p class="text-xs text-emerald-700">TOTAL MASUK</p><p id="totalDanaMasuk" class="font-bold text-emerald-700">Rp 0</p></div>
+        <div class="bg-rose-50 p-3 rounded-xl text-center"><p class="text-xs text-rose-700">TOTAL KELUAR</p><p id="totalDanaKeluar" class="font-bold text-rose-700">Rp 0</p></div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <button onclick="setDanaTipe('masuk')" id="danaMasukBtn" class="flex-1 bg-emerald-600 text-white py-2 rounded-xl font-bold text-sm">⬆️ DANA MASUK</button>
+        <button onclick="setDanaTipe('keluar')" id="danaKeluarBtn" class="flex-1 bg-gray-100 py-2 rounded-xl text-sm">⬇️ DANA KELUAR</button>
+      </div>
+      <input id="danaNominal" type="number" placeholder="Nominal, cth: 500000" class="w-full border rounded-xl p-3 mt-3">
+      <input id="danaKeterangan" placeholder="Keterangan, cth: Pinjam dari Bos / Beli plastik / Bayar listrik" class="w-full border rounded-xl p-3 mt-2">
+      <div id="formPinjam" style="display:none" class="bg-amber-50 p-3 rounded-xl mt-2">
+        <p class="text-xs font-bold text-amber-700">📌 Kedeteksi PINJAM - isi ini ya Aa:</p>
+        <input id="danaDari" placeholder="Pinjam dari siapa? cth: Bos / Pak RT" class="w-full border rounded-xl p-3 mt-2">
+        <label class="block text-xs font-bold mt-2 text-gray-600">JATUH TEMPO / HARUS BALIK TANGGAL BERAPA?</label>
+        <input id="danaJatuhTempo" type="date" class="w-full border rounded-xl p-3 mt-1">
+      </div>
+      <button onclick="simpanDana()" class="w-full bg-black text-white py-3 rounded-xl font-bold mt-3">SIMPAN DANA</button>
+      <div id="listDana" class="mt-3 text-sm"></div>
+    </div>
   </div>
 
-  <!-- ========== TAB 4: KASBON ========== -->
+  <!-- TAB 4 KASBON -->
   <div id="page-kasbon" class="tab-page">
-    <div class="bg-rose-500 text-white p-4 rounded-2xl">
-      <p class="text-xs opacity-80">TOTAL KASBON HARI INI</p>
-      <p id="kasbonTotal2" class="text-2xl font-bold mt-1">Rp 0</p>
-      <p id="kasbonCount" class="text-xs mt-1 opacity-80">0 orang ngutang</p>
-    </div>
+    <div class="bg-rose-500 text-white p-4 rounded-2xl"><p class="text-xs opacity-80">TOTAL SISA KASBON</p><p id="kasbonTotal2" class="text-2xl font-bold mt-1">Rp 0</p><p id="kasbonCount" class="text-xs mt-1 opacity-80">0 orang ngutang</p><p id="kasbonSudahBayar" class="text-xs opacity-80"></p></div>
     <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
       <h3 class="font-bold text-lg">⏰ Daftar Kasbon</h3>
-      <p class="text-xs text-gray-400">Siapa aja yang belum bayar.</p>
+      <p class="text-xs text-gray-400">Bisa bayar lunas atau bayar sebagian dulu.</p>
       <div id="listKasbon" class="mt-3"></div>
     </div>
+    <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm"><h3 class="font-bold">✅ Yang Udah Lunas</h3><div id="listLunas" class="mt-2 text-sm"></div></div>
   </div>
 
-  <!-- ========== TAB 5: LAPORAN ========== -->
+  <!-- TAB 5 LAPORAN -->
   <div id="page-laporan" class="tab-page">
     <div class="bg-white rounded-2xl p-4 shadow-sm">
       <h3 class="font-bold text-lg">📊 Laporan Hari Ini</h3>
-      <p class="text-xs text-gray-400 mt-1">Ringkasan penjualan hari ini.</p>
       <div id="laporanIsi" class="text-sm mt-3 space-y-2"></div>
+      <button onclick="shareWA()" class="w-full bg-green-500 text-white py-3 rounded-xl font-bold mt-4">💬 KIRIM LAPORAN KE WA</button>
+      <p class="text-xs text-gray-400 text-center mt-2">Klik langsung kebuka WA, tinggal pilih kontak</p>
     </div>
-    <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
-      <h3 class="font-bold">Per Produk Terjual</h3>
-      <div id="laporanProduk" class="text-sm mt-2"></div>
-    </div>
+    <div class="bg-white rounded-2xl p-4 mt-4 shadow-sm"><h3 class="font-bold">Per Produk Terjual</h3><div id="laporanProduk" class="text-sm mt-2"></div></div>
   </div>
-
 </div>
 
-<!-- BOTTOM NAV - PINDAH TAB -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 text-xs z-30 shadow-[0_-2px_10px_rgba(0,0,0,0.08)]">
   <button onclick="showTab('penjualan')" id="nav-penjualan" class="nav-btn active flex flex-col items-center py-1 px-2">🚬<span>Penjualan</span></button>
   <button onclick="showTab('stok')" id="nav-stok" class="nav-btn flex flex-col items-center py-1 px-2">📦<span>Stok</span></button>
@@ -155,6 +153,8 @@
   <button onclick="showTab('kasbon')" id="nav-kasbon" class="nav-btn flex flex-col items-center py-1 px-2">⏰<span>Kasbon</span></button>
   <button onclick="showTab('laporan')" id="nav-laporan" class="nav-btn flex flex-col items-center py-1 px-2">📊<span>Laporan</span></button>
 </div>
+
+<canvas id="canvasNota" width="480" height="640" style="display:none"></canvas>
 
 <script>
 let PRODUK_DEFAULT = [
@@ -173,9 +173,14 @@ let keranjang = {};
 let tipe = "Reguler";
 let bayar = "Tunai";
 let data = JSON.parse(localStorage.getItem("cigarmart") || "[]");
+let editJualId = null;
+let danaList = JSON.parse(localStorage.getItem("cigarmart_dana") || "[]");
+let danaTipe = "masuk";
 document.getElementById("tanggal").valueAsDate = new Date();
-
-// FUNGSI PINDAH TAB - INI DOANG YANG BARU, SISANYA SAMA
+document.getElementById("danaKeterangan").addEventListener("input", function(){
+  let v = this.value.toLowerCase();
+  document.getElementById("formPinjam").style.display = (v.includes("pinjam") && danaTipe=="masuk") ? "block" : "none";
+});
 function showTab(nama){
   document.querySelectorAll(".tab-page").forEach(el=>el.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(el=>el.classList.remove("active"));
@@ -184,82 +189,6 @@ function showTab(nama){
   window.scrollTo({top:0, behavior:"smooth"});
   renderDash();
 }
-function rupiah(n){ return "Rp " + n.toLocaleString("id-ID"); }
+function rupiah(n){ return "Rp " + (n||0).toLocaleString("id-ID"); }
 function isiNama(n){ document.getElementById("nama").value = n; }
-function setTipe(t){ tipe=t; document.getElementById("btnReguler").className = t=="Reguler" ? "px-3 py-1 rounded-full bg-black text-white text-sm" : "px-3 py-1 rounded-full bg-gray-100 text-sm"; document.getElementById("btnReseller").className = t=="Reseller" ? "px-3 py-1 rounded-full bg-black text-white text-sm" : "px-3 py-1 rounded-full bg-gray-100 text-sm"; }
-function setBayar(b){ bayar=b; ["Tunai","Transfer","Kasbon"].forEach(x=>{ document.getElementById("bayar"+x).className = x==b ? "border-2 border-black py-2 rounded-xl font-bold text-sm" : "border py-2 rounded-xl text-sm"; }); }
-function renderProduk(){
-  document.getElementById("listProduk").innerHTML = PRODUK.map((p,i)=>`
-    <div class="border rounded-xl p-3 ${keranjang[i]?'border-black bg-amber-50':' '}">
-      <p class="font-bold">${p.nama}</p>
-      <p class="text-amber-700 font-bold">${rupiah(p.harga)}</p>
-      <p class="text-xs text-gray-500">Stok: ${p.stok - terjual(i)} bungkus</p>
-      <div class="flex items-center gap-2 mt-2">
-        <button onclick="ubah(${i},-1)" class="w-8 h-8 bg-gray-100 rounded-full font-bold">-</button>
-        <span class="font-bold">${keranjang[i]||0}</span>
-        <button onclick="ubah(${i},1)" class="w-8 h-8 bg-black text-white rounded-full font-bold">+</button>
-      </div>
-    </div>`).join("");
-  let total = PRODUK.reduce((s,p,i)=> s + (keranjang[i]||0)*p.harga, 0);
-  document.getElementById("totalBayar").innerText = rupiah(total);
-}
-function ubah(i,d){ keranjang[i]=Math.max(0,(keranjang[i]||0)+d); if(keranjang[i]==0) delete keranjang[i]; renderProduk(); }
-function terjual(i){ return data.reduce((s,t)=> s + (t.items[i]||0), 0); }
-function simpan(){
-  let total = PRODUK.reduce((s,p,i)=> s + (keranjang[i]||0)*p.harga, 0);
-  if(total==0) return alert("Pilih cerutu dulu Aa");
-  let nama = document.getElementById("nama").value || "Umum";
-  let tgl = document.getElementById("tanggal").value;
-  let untung = PRODUK.reduce((s,p,i)=> s + (keranjang[i]||0)*(p.harga-p.modal), 0);
-  data.push({nama, tgl, tipe, bayar, items:{...keranjang}, total, untung});
-  localStorage.setItem("cigarmart", JSON.stringify(data));
-  keranjang={}; document.getElementById("nama").value="";
-  renderProduk(); renderDash();
-  alert("Penjualan tersimpan! Total " + rupiah(total));
-}
-function renderDash(){
-  let today = new Date().toISOString().slice(0,10);
-  let hariIni = data.filter(d=> d.tgl==today);
-  let omset = hariIni.reduce((s,d)=> s+d.total,0);
-  let jual = hariIni.reduce((s,d)=> s+Object.values(d.items).reduce((a,b)=>a+b,0),0);
-  let unt = hariIni.reduce((s,d)=> s+d.untung,0);
-  let kasbonList = hariIni.filter(d=>d.bayar=="Kasbon");
-  let kasbon = kasbonList.reduce((s,d)=> s+d.total,0);
-  document.getElementById("omset").innerText = rupiah(omset);
-  document.getElementById("jmlTransaksi").innerText = hariIni.length + " transaksi hari ini";
-  document.getElementById("totalJual").innerText = jual + " bungkus";
-  document.getElementById("untung").innerText = rupiah(unt);
-  document.getElementById("kasbonTotal").innerText = rupiah(kasbon);
-  document.getElementById("kasbonTotal2").innerText = rupiah(kasbon);
-  document.getElementById("kasbonCount").innerText = kasbonList.length + " orang ngutang";
-  document.getElementById("riwayat").innerHTML = hariIni.length ? hariIni.map(d=>`<div class="flex justify-between border-b py-2"><span>${d.nama} • ${Object.entries(d.items).map(([i,q])=> PRODUK[i] ? PRODUK[i].nama+" x"+q+" bungkus" : "").join(", ")} • ${d.bayar}</span><b>${rupiah(d.total)}</b></div>`).join("") : "<p class='text-gray-400'>Belum ada penjualan hari ini</p>";
-  document.getElementById("listKasbon").innerHTML = kasbonList.length ? kasbonList.map(d=>`<div class="bg-rose-50 p-3 rounded-xl mt-2 flex justify-between items-center"><span><b>${d.nama}</b><br><span class="text-xs text-gray-500">${Object.entries(d.items).map(([i,q])=> PRODUK[i] ? PRODUK[i].nama+" x"+q : "").join(", ")}</span></span><b class="text-rose-600">${rupiah(d.total)}</b></div>`).join("") : "<p class='text-gray-400'>Tidak ada Kasbon hari ini, aman Aa!</p>";
-  document.getElementById("laporanIsi").innerHTML = `<div class="flex justify-between border-b py-2"><span>Omset</span><b>${rupiah(omset)}</b></div><div class="flex justify-between border-b py-2"><span>Terjual</span><b>${jual} bungkus</b></div><div class="flex justify-between border-b py-2"><span>Untung</span><b>${rupiah(unt)}</b></div><div class="flex justify-between border-b py-2"><span>Kasbon</span><b>${rupiah(kasbon)}</b></div><div class="flex justify-between py-2"><span>Transaksi</span><b>${hariIni.length} kali</b></div>`;
-  document.getElementById("laporanProduk").innerHTML = PRODUK.map((p,i)=>`<div class="flex justify-between border-b py-2"><span>${p.nama}</span><span>Terjual ${terjual(i)} bungkus • Sisa ${p.stok - terjual(i)}</span></div>`).join("");
-  document.getElementById("listStok").innerHTML = PRODUK.map((p,i)=>`<div class="flex justify-between items-center border-b py-2"><span>${p.nama}<br><span class="text-gray-400 text-xs">Sisa ${p.stok - terjual(i)} bungkus • Total stok ${p.stok} • ${rupiah(p.harga)}</span></span><span class="flex gap-1 shrink-0"><button onclick="ubahStok(${i},-1)" class="w-7 h-7 bg-gray-100 rounded-full font-bold">-</button><button onclick="ubahStok(${i},1)" class="w-7 h-7 bg-black text-white rounded-full font-bold">+</button><button onclick="editStokManual(${i})" class="bg-amber-100 text-amber-800 px-2 rounded-full text-xs">Edit</button></span></div>`).join("");
-  renderKelola();
-}
-function ubahStok(i,d){ PRODUK[i].stok=Math.max(0,PRODUK[i].stok+d); saveProduk(); renderProduk(); renderDash(); }
-function editStokManual(i){ let v=prompt("Masukkan stok baru (total stok) untuk "+PRODUK[i].nama+":", PRODUK[i].stok); if(v!==null && v!==""){ PRODUK[i].stok=parseInt(v)||0; saveProduk(); renderProduk(); renderDash(); } }
-function renderKelola(){
-  document.getElementById("listKelola").innerHTML = PRODUK.map((p,i)=>`<div class="flex justify-between items-center gap-2 border-b py-2"><span class="flex-1"><b>${p.nama}</b><br><span class="text-gray-400 text-xs">Jual ${rupiah(p.harga)} • Modal ${rupiah(p.modal)} • Stok ${p.stok} bungkus</span></span><span class="flex gap-1 shrink-0"><button onclick="editBarang(${i})" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">Edit</button><button onclick="hapusBarang(${i})" class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">Hapus</button></span></div>`).join("");
-}
-function editBarang(i){ let p=PRODUK[i]; document.getElementById("fNama").value=p.nama; document.getElementById("fHarga").value=p.harga; document.getElementById("fModal").value=p.modal; document.getElementById("fStok").value=p.stok; document.getElementById("editIndex").value=i; document.getElementById("btnSimpanBarang").innerText="SIMPAN PERUBAHAN"; document.getElementById("btnBatal").classList.remove("hidden"); window.scrollTo({top:0, behavior:"smooth"}); }
-function batalEdit(){ document.getElementById("fNama").value=""; document.getElementById("fHarga").value=""; document.getElementById("fModal").value=""; document.getElementById("fStok").value=""; document.getElementById("editIndex").value=-1; document.getElementById("btnSimpanBarang").innerText="+ TAMBAH BARANG BARU"; document.getElementById("btnBatal").classList.add("hidden"); }
-function simpanBarang(){
-  let nama=document.getElementById("fNama").value.trim();
-  let harga=parseInt(document.getElementById("fHarga").value)||0;
-  let modal=parseInt(document.getElementById("fModal").value)||0;
-  let stok=parseInt(document.getElementById("fStok").value)||0;
-  let idx=parseInt(document.getElementById("editIndex").value);
-  if(!nama||!harga){ alert("Isi dulu Nama dan Harga Jual Aa!"); return; }
-  if(idx>=0){ PRODUK[idx]={nama,harga,modal,stok}; alert("Berhasil diedit!"); }
-  else { PRODUK.push({nama,harga,modal,stok}); }
-  saveProduk(); batalEdit(); renderProduk(); renderDash();
-}
-function hapusBarang(i){ if(confirm("Hapus "+PRODUK[i].nama+" ?")){ PRODUK.splice(i,1); saveProduk(); renderProduk(); renderDash(); } }
-function resetData(){ if(confirm("Hapus semua data penjualan?")){ localStorage.removeItem("cigarmart"); data=[]; renderDash(); renderProduk(); } }
-renderProduk(); renderDash();
-</script>
-</body>
-</html>
+function setTipe(t){ tipe
