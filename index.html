@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cigar Mart - POS Kasir</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f6f1e8] pb-32 font-sans">
+<!-- HEADER -->
+<div id="top" class="bg-[#1a120b] text-white p-4 sticky top-0 z-20 flex justify-between items-center">
+  <div class="flex gap-3 items-center">
+    <div class="w-11 h-11 bg-amber-600 rounded-full flex items-center justify-center text-2xl">🚬</div>
+    <div>
+      <h1 class="font-bold text-lg leading-none">Cigar Mart</h1>
+      <p class="text-xs text-amber-300 mt-1">Premium Cigar • Asli • Terpercaya</p>
+    </div>
+  </div>
+  <button onclick="resetData()" class="text-xs bg-white/10 px-3 py-2 rounded-full">Reset</button>
+</div>
+
+<div class="p-3 max-w-xl mx-auto">
+  <!-- DASHBOARD -->
+  <div class="grid grid-cols-2 gap-3">
+    <div class="bg-emerald-600 text-white p-4 rounded-2xl">
+      <p class="text-xs opacity-80">OMSET HARI INI</p>
+      <p id="omset" class="text-2xl font-bold mt-2">Rp 0</p>
+      <p id="jmlTransaksi" class="text-xs mt-1 opacity-80">0 transaksi hari ini</p>
+    </div>
+    <div class="bg-blue-600 text-white p-4 rounded-2xl">
+      <p class="text-xs opacity-80">TOTAL TERJUAL</p>
+      <p id="totalJual" class="text-2xl font-bold mt-2">0 bungkus</p>
+      <p class="text-xs mt-1 opacity-80">Semua jenis cerutu</p>
+    </div>
+    <div class="bg-amber-500 text-white p-4 rounded-2xl">
+      <p class="text-xs opacity-80">ESTIMASI UNTUNG</p>
+      <p id="untung" class="text-2xl font-bold mt-2">Rp 0</p>
+      <p class="text-xs mt-1 opacity-80">Laba kotor penjualan</p>
+    </div>
+    <div class="bg-rose-500 text-white p-4 rounded-2xl">
+      <p class="text-xs opacity-80">KASBON HARI INI</p>
+      <p id="kasbonTotal" class="text-2xl font-bold mt-2">Rp 0</p>
+      <p class="text-xs mt-1 opacity-80">Hutang belum dibayar</p>
+    </div>
+  </div>
+
+  <!-- CATAT PENJUALAN -->
+  <div id="secPenjualan" class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
+    <h2 class="font-bold text-lg">+ Catat Penjualan Baru</h2>
+    <p class="text-sm text-gray-500">Pilih cerutu, jumlah dan metode pembayaran</p>
+
+    <label class="block text-xs font-bold mt-4 text-gray-600">TANGGAL TRANSAKSI</label>
+    <input id="tanggal" type="date" class="w-full border rounded-xl p-3 mt-1">
+
+    <label class="block text-xs font-bold mt-4 text-gray-600">NAMA PEMBELI / PELANGGAN</label>
+    <div class="flex gap-2 mt-1">
+      <button onclick="setTipe('Reguler')" id="btnReguler" class="px-3 py-1 rounded-full bg-black text-white text-sm">Reguler</button>
+      <button onclick="setTipe('Reseller')" id="btnReseller" class="px-3 py-1 rounded-full bg-gray-100 text-sm">🏷️ Reseller</button>
+    </div>
+    <input id="nama" placeholder="Contoh: Mas Budi, Bu Sri (default: Umum)" class="w-full border rounded-xl p-3 mt-2">
+    <div class="flex gap-2 mt-2 flex-wrap">
+      <button onclick="isiNama('Umum')" class="bg-gray-100 px-3 py-1 rounded-full text-sm">Umum</button>
+      <button onclick="isiNama('Pak RT')" class="bg-gray-100 px-3 py-1 rounded-full text-sm">Pak RT</button>
+      <button onclick="isiNama('Mbak Fitri')" class="bg-gray-100 px-3 py-1 rounded-full text-sm">Mbak Fitri</button>
+      <button onclick="isiNama('Mas Budi')" class="bg-gray-100 px-3 py-1 rounded-full text-sm">Mas Budi</button>
+    </div>
+
+    <label class="block text-xs font-bold mt-5 text-gray-600">PILIH CERUTU</label>
+    <div id="listProduk" class="grid grid-cols-2 gap-2 mt-2"></div>
+
+    <label class="block text-xs font-bold mt-4 text-gray-600">METODE PEMBAYARAN</label>
+    <div class="grid grid-cols-3 gap-2 mt-1">
+      <button onclick="setBayar('Tunai')" id="bayarTunai" class="border-2 border-black py-2 rounded-xl font-bold text-sm">Tunai</button>
+      <button onclick="setBayar('Transfer')" id="bayarTransfer" class="border py-2 rounded-xl text-sm">Transfer</button>
+      <button onclick="setBayar('Kasbon')" id="bayarKasbon" class="border py-2 rounded-xl text-sm">Kasbon</button>
+    </div>
+
+    <div class="flex justify-between items-center mt-4 bg-amber-50 p-3 rounded-xl">
+      <span class="font-bold">Total:</span>
+      <span id="totalBayar" class="font-bold text-xl">Rp 0</span>
+    </div>
+    <button onclick="simpan()" class="w-full bg-black text-white py-3 rounded-xl font-bold mt-3">SIMPAN PENJUALAN</button>
+  </div>
+
+  <!-- RIWAYAT -->
+  <div id="secPembukuan" class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
+    <h3 class="font-bold">Riwayat Hari Ini</h3>
+    <div id="riwayat" class="mt-2 text-sm"></div>
+    <div id="listKasbon" class="mt-3"></div>
+  </div>
+
+  <!-- STOK -->
+  <div id="secStok" class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
+    <h3 class="font-bold">Stok Cerutu</h3>
+    <p class="text-xs text-gray-400">Klik + / - atau Edit untuk ubah stok langsung di sini, tanpa edit kode.</p>
+    <div id="listStok" class="mt-2 text-sm"></div>
+  </div>
+
+  <!-- KELOLA BARANG -->
+  <div id="secKelola" class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
+    <h3 class="font-bold">Kelola Barang - Edit Harga / Stok / Tambah Barang</h3>
+    <p class="text-xs text-gray-400 mt-1">Isi form di bawah untuk tambah barang baru, atau klik Edit di barang yang mau diubah.</p>
+    <input id="fNama" placeholder="Nama Barang, cth: MARBOL Filterblack" class="w-full border rounded-xl p-3 mt-3">
+    <div class="grid grid-cols-2 gap-2 mt-2">
+      <input id="fHarga" type="number" placeholder="Harga Jual, cth: 14000" class="border rounded-xl p-3">
+      <input id="fModal" type="number" placeholder="Harga Modal, cth: 10000" class="border rounded-xl p-3">
+    </div>
+    <input id="fStok" type="number" placeholder="Stok, cth: 50" class="w-full border rounded-xl p-3 mt-2">
+    <input type="hidden" id="editIndex" value="-1">
+    <button onclick="simpanBarang()" id="btnSimpanBarang" class="w-full bg-amber-600 text-white py-3 rounded-xl font-bold mt-3">+ TAMBAH BARANG BARU</button>
+    <button onclick="batalEdit()" id="btnBatal" class="w-full bg-gray-100 py-2 rounded-xl text-sm mt-2 hidden">Batal Edit</button>
+    <div id="listKelola" class="mt-3 text-sm"></div>
+  </div>
+
+  <!-- LAPORAN -->
+  <div id="secLaporan" class="bg-white rounded-2xl p-4 mt-4 shadow-sm">
+    <h3 class="font-bold">Laporan</h3>
+    <p class="text-xs text-gray-400 mt-1">Ringkasan penjualan hari ini, sama kayak dashboard di atas.</p>
+    <div id="laporanIsi" class="text-sm mt-2"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV - SEKARANG BISA DIKLIK -->
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 text-xs z-30 shadow-[0_-2px_10px_rgba(0,0,0,0.08)]">
+  <button onclick="goTo('secPenjualan')" class="flex flex-col items-center font-bold">🚬<span>Penjualan</span></button>
+  <button onclick="goTo('secStok')" class="flex flex-col items-center">📦<span>Stok</span></button>
+  <button onclick="goTo('secPembukuan')" class="flex flex-col items-center">📒<span>Pembukuan</span></button>
+  <button onclick="goTo('secPembukuan');showKasbon()" class="flex flex-col items-center">⏰<span>Kasbon</span></button>
+  <button onclick="goTo('secLaporan')" class="flex flex-col items-center">📊<span>Laporan</span></button>
+</div>
+
+<script>
+let PRODUK_DEFAULT = [
+  {nama:"MARBOL Filterblack", harga:14000, modal:10000, stok:50},
+  {nama:"MARBOL Melon", harga:14000, modal:10000, stok:50},
+  {nama:"MARBOL Semangka", harga:14000, modal:10000, stok:50},
+  {nama:"MARBOL Blueberry", harga:14000, modal:10000, stok:50},
+  {nama:"ESTE Semangka", harga:15000, modal:11000, stok:50},
+  {nama:"ESTE Mango", harga:15000, modal:11000, stok:50},
+  {nama:"HUMER Merah New", harga:12000, modal:9000, stok:50},
+  {nama:"MARLLONG Dadali", harga:14000, modal:9500, stok:50},
+];
+let PRODUK = JSON.parse(localStorage.getItem("cigarmart_produk") || "null") || PRODUK_DEFAULT;
+function saveProduk(){ localStorage.setItem("cigarmart_produk", JSON.stringify(PRODUK)); }
+let keranjang = {};
+let tipe = "Reguler";
+let bayar = "Tunai";
+let data = JSON.parse(localStorage.getItem("cigarmart") || "[]");
+document.getElementById("tanggal").valueAsDate = new Date();
+function goTo(id){ document.getElementById(id).scrollIntoView({behavior:"smooth", block:"start"}); }
+function showKasbon(){ let k = data.filter(d=>d.bayar=="Kasbon"); if(k.length==0){ alert("Tidak ada Kasbon hari ini Aa, aman!"); } else { alert("Kasbon hari ini ada "+k.length+" orang, total "+rupiah(k.reduce((s,d)=>s+d.total,0))+" - cek di Riwayat ya Aa"); } }
+function rupiah(n){ return "Rp " + n.toLocaleString("id-ID"); }
+function isiNama(n){ document.getElementById("nama").value = n; }
+function setTipe(t){ tipe=t; document.getElementById("btnReguler").className = t=="Reguler" ? "px-3 py-1 rounded-full bg-black text-white text-sm" : "px-3 py-1 rounded-full bg-gray-100 text-sm"; document.getElementById("btnReseller").className = t=="Reseller" ? "px-3 py-1 rounded-full bg-black text-white text-sm" : "px-3 py-1 rounded-full bg-gray-100 text-sm"; }
+function setBayar(b){ bayar=b; ["Tunai","Transfer","Kasbon"].forEach(x=>{ document.getElementById("bayar"+x).className = x==b ? "border-2 border-black py-2 rounded-xl font-bold text-sm" : "border py-2 rounded-xl text-sm"; }); }
+function renderProduk(){
+  document.getElementById("listProduk").innerHTML = PRODUK.map((p,i)=>`
+    <div class="border rounded-xl p-3 ${keranjang[i]?'border-black bg-amber-50':' '}">
+      <p class="font-bold">${p.nama}</p>
+      <p class="text-amber-700 font-bold">${rupiah(p.harga)}</p>
+      <p class="text-xs text-gray-500">Stok: ${p.stok - terjual(i)} bungkus</p>
+      <div class="flex items-center gap-2 mt-2">
+        <button onclick="ubah(${i},-1)" class="w-8 h-8 bg-gray-100 rounded-full font-bold">-</button>
+        <span class="font-bold">${keranjang[i]||0}</span>
+        <button onclick="ubah(${i},1)" class="w-8 h-8 bg-black text-white rounded-full font-bold">+</button>
+      </div>
+    </div>`).join("");
+  let total = PRODUK.reduce((s,p,i)=> s + (keranjang[i]||0)*p.harga, 0);
+  document.getElementById("totalBayar").innerText = rupiah(total);
+}
+function ubah(i,d){ keranjang[i]=Math.max(0,(keranjang[i]||0)+d); if(keranjang[i]==0) delete keranjang[i]; renderProduk(); }
+function terjual(i){ return data.reduce((s,t)=> s + (t.items[i]||0), 0); }
+function simpan(){
+  let total = PRODUK.reduce((s,p,i)=> s + (keranjang[i]||0)*p.harga, 0);
+  if(total==0) return alert("Pilih cerutu dulu Aa");
+  let nama = document.getElementById("nama").value || "Umum";
+  let tgl = document.getElementById("tanggal").value;
+  let untung = PRODUK.reduce((s,p,i)=> s + (keranjang[i]||0)*(p.harga-p.modal), 0);
+  data.push({nama, tgl, tipe, bayar, items:{...keranjang}, total, untung});
+  localStorage.setItem("cigarmart", JSON.stringify(data));
+  keranjang={}; document.getElementById("nama").value="";
+  renderProduk(); renderDash();
+  alert("Penjualan tersimpan! Total " + rupiah(total));
+}
+function renderDash(){
+  let today = new Date().toISOString().slice(0,10);
+  let hariIni = data.filter(d=> d.tgl==today);
+  let omset = hariIni.reduce((s,d)=> s+d.total,0);
+  let jual = hariIni.reduce((s,d)=> s+Object.values(d.items).reduce((a,b)=>a+b,0),0);
+  let unt = hariIni.reduce((s,d)=> s+d.untung,0);
+  let kasbon = hariIni.filter(d=>d.bayar=="Kasbon").reduce((s,d)=> s+d.total,0);
+  document.getElementById("omset").innerText = rupiah(omset);
+  document.getElementById("jmlTransaksi").innerText = hariIni.length + " transaksi hari ini";
+  document.getElementById("totalJual").innerText = jual + " bungkus";
+  document.getElementById("untung").innerText = rupiah(unt);
+  document.getElementById("kasbonTotal").innerText = rupiah(kasbon);
+  document.getElementById("riwayat").innerHTML = hariIni.length ? hariIni.map(d=>`<div class="flex justify-between border-b py-2"><span>${d.nama} • ${Object.entries(d.items).map(([i,q])=> PRODUK[i] ? PRODUK[i].nama+" x"+q+" bungkus" : "").join(", ")} • ${d.bayar}</span><b>${rupiah(d.total)}</b></div>`).join("") : "<p class='text-gray-400'>Belum ada penjualan hari ini</p>";
+  document.getElementById("listKasbon").innerHTML = hariIni.filter(d=>d.bayar=="Kasbon").length ? "<p class='font-bold mt-2'>⏰ Daftar Kasbon:</p>" + hariIni.filter(d=>d.bayar=="Kasbon").map(d=>`<div class="bg-rose-50 p-2 rounded-lg mt-1 flex justify-between"><span>${d.nama}</span><b>${rupiah(d.total)}</b></div>`).join("") : "";
+  document.getElementById("laporanIsi").innerHTML = `<div>Omset: <b>${rupiah(omset)}</b></div><div>Terjual: <b>${jual} bungkus</b></div><div>Untung: <b>${rupiah(unt)}</b></div><div>Kasbon: <b>${rupiah(kasbon)}</b></div><div>Transaksi: <b>${hariIni.length} kali</b></div>`;
+  document.getElementById("listStok").innerHTML = PRODUK.map((p,i)=>`<div class="flex justify-between items-center border-b py-2"><span>${p.nama}<br><span class="text-gray-400 text-xs">Sisa ${p.stok - terjual(i)} bungkus • Total stok ${p.stok} • ${rupiah(p.harga)}</span></span><span class="flex gap-1 shrink-0"><button onclick="ubahStok(${i},-1)" class="w-7 h-7 bg-gray-100 rounded-full font-bold">-</button><button onclick="ubahStok(${i},1)" class="w-7 h-7 bg-black text-white rounded-full font-bold">+</button><button onclick="editStokManual(${i})" class="bg-amber-100 text-amber-800 px-2 rounded-full text-xs">Edit</button></span></div>`).join("");
+  renderKelola();
+}
+function ubahStok(i,d){ PRODUK[i].stok=Math.max(0,PRODUK[i].stok+d); saveProduk(); renderProduk(); renderDash(); }
+function editStokManual(i){ let v=prompt("Masukkan stok baru (total stok) untuk "+PRODUK[i].nama+":", PRODUK[i].stok); if(v!==null && v!==""){ PRODUK[i].stok=parseInt(v)||0; saveProduk(); renderProduk(); renderDash(); } }
+function renderKelola(){
+  document.getElementById("listKelola").innerHTML = PRODUK.map((p,i)=>`<div class="flex justify-between items-center gap-2 border-b py-2"><span class="flex-1"><b>${p.nama}</b><br><span class="text-gray-400 text-xs">Jual ${rupiah(p.harga)} • Modal ${rupiah(p.modal)} • Stok ${p.stok} bungkus</span></span><span class="flex gap-1 shrink-0"><button onclick="editBarang(${i})" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">Edit</button><button onclick="hapusBarang(${i})" class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">Hapus</button></span></div>`).join("");
+}
+function editBarang(i){ let p=
